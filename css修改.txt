@@ -1,0 +1,582 @@
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Kiwi+Maru:wght@300;500&display=swap');  
+ 
+        body {
+            font-family: 'Kiwi Maru', serif;
+            background-color: #FFF9F9;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+ 
+        /* 标题使用更漫画风的DotGothic16 */
+        h1, h2, h3, .button, .option, #game-title {
+            font-family: 'DotGothic16', sans-serif;
+        }
+ 
+        .admin-panel {
+            display: none;
+        }
+ 
+        .main-article {
+            display: none;
+        }
+ 
+        .option {
+            cursor: pointer;
+            color: #333;
+            border: 3px solid #333;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background-color: #FFF;
+            box-shadow: 4px 4px 0 #999;
+            transition: all 0.2s;
+            position: relative;
+            letter-spacing: 1px;
+        }
+ 
+        .option:hover {
+            background-color: #FFEEEE;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #999;
+        }
+ 
+        .button {
+            background-color: #FFF;
+            color: #333;
+            padding: 12px 24px;
+            border: 3px solid #333;
+            border-radius: 0;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #999;
+            transition: all 0.2s;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+ 
+        .button:hover {
+            background-color: #FFEEEE;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #999;
+        }
+ 
+        .button:active {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #999;
+        }
+ 
+        .group {
+            margin-bottom: 20px;
+            border: 3px solid #333;
+            padding: 15px;
+            background-color: #FFF;
+            box-shadow: 4px 4px 0 #999;
+        }
+ 
+        #phone-icon {
+            position: fixed;
+            bottom: 60px;
+            right: 40px;
+            transform: translateX(50%);
+            background-color: #FFF;
+            color: #333;
+            padding: 10px;
+            border: 3px solid #333;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 4px 4px 0 #999;
+            z-index: 100;
+        }
+ 
+        #phone-screen {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF;
+            border: 3px solid #333;
+            width: 300px;
+            height: 500px;
+            overflow-y: auto;
+            box-shadow: 8px 8px 0 #999;
+        }
+ 
+        #phone-screen img {
+            width: 100%;
+            margin-bottom: 8px;
+            border: 2px solid #333;
+        }
+ 
+        #back-button {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background-color: #FFF;
+            color: #333;
+            padding: 5px 10px;
+            border: 2px solid #333;
+            cursor: pointer;
+            font-size: 10px;
+            box-shadow: 2px 2px 0 #999;
+        }
+ 
+        #show-next-node {
+            display: none;
+            font-size: 14px;
+            padding: 10px 20px;
+            background-color: #FFF;
+            border: 3px solid #333;
+            color: #333;
+            box-shadow: 4px 4px 0 #999;
+            margin: 10px auto;
+        }
+ 
+        #admin-login-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF;
+            border: 3px solid #333;
+            padding: 20px;
+            z-index: 100;
+            box-shadow: 8px 8px 0 #999;
+        }
+ 
+        #admin-login-modal input {
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 2px solid #333;
+            background-color: #FFF;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+        }
+ 
+        .forum-post {
+            cursor: pointer;
+            border-bottom: 3px solid #333;
+            padding: 15px;
+            margin: 10px;
+            background-color: #FFF;
+            border: 3px solid #333;
+            box-shadow: 4px 4px 0 #999;
+        }
+ 
+        .forum-post:hover {
+            background-color: #FFEEEE;
+        }
+ 
+        .forum-post-title {
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: none;
+            font-size: 12px;
+        }
+ 
+        .forum-post-preview {
+            max-height: 60px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            font-size: 10px;
+        }
+ 
+        .forum-post-detail {
+            display: none;
+            padding: 15px;
+            border: 2px solid #333;
+            margin-top: 15px;
+            background-color: #FFF;
+            box-shadow: inset 2px 2px 0 #999;
+        }
+ 
+        .reply {
+            margin-left: 20px;
+            border-left: 3px solid #333;
+            padding-left: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+ 
+        #admin-login-entry {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+        }
+ 
+        #admin-login-entry input {
+            width: 100%;
+            padding: 5px;
+            font-size: 10px;
+            border: 2px solid #333;
+        }
+ 
+        #forum-posts-list {
+            padding-top: 40px;
+        }
+ 
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            background-color: #FFF;
+            padding: 15px;
+            border: 2px solid #333;
+            box-shadow: inset 2px 2px 0 #999;
+        }
+ 
+        #load-save-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF;
+            border: 3px solid #333;
+            padding: 20px;
+            z-index: 100;
+            box-shadow: 8px 8px 0 #999;
+        }
+ 
+        .save-point {
+            cursor: pointer;
+            color: #333;
+            margin: 10px 0;
+            display: block;
+            padding: 8px;
+            border: 2px solid #333;
+            background-color: #FFF;
+        }
+ 
+        .save-point:hover {
+            background-color: #FFEEEE;
+        }
+ 
+        .toast {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #FFF;
+            color: #333;
+            padding: 10px 20px;
+            border: 3px solid #333;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            z-index: 1000;
+            box-shadow: 4px 4px 0 #999;
+        }
+ 
+        #game-title {
+            font-size: 24px;
+            color: #333;
+            text-shadow: 4px 4px 0 #999;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+ 
+        h2 {
+            font-size: 18px;
+            color: #333;
+            border-bottom: 3px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+ 
+        h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+ 
+        #load-button, #restart-button {
+            padding: 8px 15px;
+            font-size: 10px;
+        }
+ 
+        #phone-icon i {
+            color: #333;
+        }
+ 
+        .pixel-heart {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: #333;
+            position: relative;
+            margin: 0 5px;
+            image-rendering: pixelated;
+        }
+ 
+        .pixel-heart:before,
+        .pixel-heart:after {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background-color: #333;
+            border-radius: 50%;
+            position: absolute;
+        }
+ 
+        /* 添加黑白心跳动画 */
+        @keyframes pixel-heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+ 
+        /* 应用动画到悬停状态 */
+        .option:hover .pixel-heart,
+        .button:hover .pixel-heart {
+            animation: pixel-heartbeat 0.6s infinite;
+        }
+ 
+        /* 为保持视觉平衡，调整其他元素的黑色浓度 */
+        .option, .button, .group {
+            border-color: #222;
+            box-shadow: 4px 4px 0 #777;
+        }
+ 
+        /* 确保所有交互元素的视觉反馈 */
+        .option:hover, .button:hover {
+            background-color: #F0F0F0;
+        }
+ 
+        input,
+        textarea {
+            background-color: #FFF;
+            border: 2px solid #333;
+            font-family: 'Press Start 2P', cursive;
+            padding: 8px;
+        }
+ 
+        #show-next-node {
+            font-size: 14px;
+            padding: 10px 20px;
+            background-color: #FFF;
+            border: 3px solid #333;
+            color: #333;
+            box-shadow: 4px 4px 0 #999;
+        }
+ 
+        #restart-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            display: none;
+        }
+ 
+        #export-button {
+            background-color: #FFF;
+            color: #333;
+            border: 3px solid #333;
+            box-shadow: 4px 4px 0 #999;
+        }
+ 
+        #export-button:hover {
+            background-color: #FFEEEE;
+        }
+ 
+        .load-option-button {
+            background-color: #FFF;
+            color: #333;
+            padding: 10px 20px;
+            border: 3px solid #333;
+            border-radius: 0;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            box-shadow: 4px 4px 0 #999;
+            margin: 10px;
+            width: calc(100% - 20px);
+            text-align: center;
+            font-size: 10px;
+        }
+ 
+        .load-option-button:hover {
+            background-color: #FFEEEE;
+        }
+ 
+        .edit-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 3px solid #333;
+            background-color: #FFF;
+            box-shadow: 4px 4px 0 #999;
+        }
+ 
+        .edit-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 2px solid #333;
+            background-color: #FFF;
+        }
+ 
+        .edit-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+ 
+        .edit-controls button {
+            padding: 5px 10px;
+            font-size: 10px;
+        }
+ 
+        .restart-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            padding: 8px 15px;
+            font-size: 10px;
+            background-color: #FFF;
+            box-shadow: 4px 4px 0 #999;
+            border: 3px solid #333;
+        }
+ 
+        .restart-button:hover {
+            background-color: #FFEEEE;
+        }
+ 
+        .node-order-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+ 
+        .node-order-controls button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            font-size: 10px;
+        }
+ 
+        .option-edit-area {
+            margin-top: 15px;
+            padding: 10px;
+            border: 2px dashed #333;
+        }
+ 
+        .compact-input {
+            padding: 5px;
+            font-size: 10px;
+            margin-right: 10px;
+        }
+ 
+        .save-btn {
+            background-color: #FFF;
+            padding: 8px 15px;
+            font-size: 10px;
+            border: 2px solid #333;
+            box-shadow: 2px 2px 0 #999;
+        }
+ 
+        .delete-btn {
+            background-color: #FFF;
+            padding: 8px 15px;
+            font-size: 10px;
+            border: 2px solid #333;
+            box-shadow: 2px 2px 0 #999;
+        }
+ 
+        .hidden {
+            display: none;
+        }
+ 
+        .option-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+ 
+        .reply-edit-area {
+            margin-top: 15px;
+            padding: 10px;
+            border: 2px dashed #333;
+            background-color: #FFF;
+        }
+ 
+        .reply-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 2px solid #333;
+            background-color: #FFF;
+            box-shadow: 2px 2px 0 #999;
+        }
+ 
+        .main-ui-hidden {
+            display: none;
+        }
+ 
+        .main-ui-show {
+            display: block;
+        }
+
+        #start-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+            width: 308px; 
+        }
+ 
+        #user-name {
+            font-family: 'DotGothic16', sans-serif;
+            padding: 8px 12px;
+            border: 2px solid #333;
+            background-color: #FFF;
+            color: #333;
+            width: 200px;
+            height: 36px;
+            margin-bottom: 10px;
+            box-shadow: 1px 1px 0 #999;
+            transition: all 0.2s;
+        }
+ 
+        #user-name:focus {
+            outline: none;
+            border-color: #222;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+        }
+ 
+        #user-nickname {
+            font-family: 'DotGothic16', sans-serif;
+            padding: 6px 10px;
+            border: 2px solid #333;
+            background-color: #FFF;
+            color: #333;
+            width: 308px;  
+            height: 32px;  
+            margin-bottom: 15px; 
+            font-size: 13px;
+            box-shadow: 1px 1px 0 #999;
+        }
+
+        #start-game {
+            width: 200px; 
+            margin-top: 5px; 
+        }
+
+        @media (max-width: 480px) {
+            #user-name, #user-nickname {
+                width: 100%;
+                margin-right: 0;
+            }
+            #user-name, 
+            #user-nickname, 
+            #start-game {
+                width: 90%;
+            }
+        }
+    </style>
+
+帮我将这个代码的css有关ui设计部分转变为（）风格，可以参考色号（），并且各区域文字容器不能和按钮有冲突和重叠，在原代码已有的部分进行修改，只更改字体、字体颜色、页面配色、边框容器的形状和尺寸等等，确保所有样式、功能和按钮都不能删减，并且各个区域的大致位置不能改变只能进行微调。（注意，整个界面禁止出现任何宋体字）不能改变功能和阅读路径。不要整一些莫名其妙的底图最好是纯色。不要仅仅展示给我改动后的部分，需要给我改动后的完整的该部分的可以直接使用的代码实现。
